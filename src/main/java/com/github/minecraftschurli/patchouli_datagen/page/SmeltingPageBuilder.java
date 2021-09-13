@@ -4,7 +4,7 @@ import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import net.minecraft.resources.ResourceLocation;
 
 public class SmeltingPageBuilder extends RecipePageBuilder<SmeltingPageBuilder> {
-	public SmeltingPageBuilder(ResourceLocation recipe, EntryBuilder entryBuilder) {
-		super("smelting", recipe, entryBuilder);
-	}
+    public SmeltingPageBuilder(ResourceLocation recipe, EntryBuilder entryBuilder) {
+        super("smelting", recipe, entryBuilder);
+    }
 }

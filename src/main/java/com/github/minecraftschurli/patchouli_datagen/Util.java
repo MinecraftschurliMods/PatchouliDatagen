@@ -15,7 +15,7 @@ public class Util {
 
     public static String serializeStack(ItemStack stack) {
         StringBuilder builder = new StringBuilder();
-        builder.append(Registry.ITEM.getKey(stack.getItem()).toString());
+        builder.append(Registry.ITEM.getKey(stack.getItem()));
 
         int count = stack.getCount();
         if (count > 1) {

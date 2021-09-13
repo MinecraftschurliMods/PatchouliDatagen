@@ -1,13 +1,10 @@
-package vazkii.patchouli.api.data;
+package com.github.minecraftschurli.patchouli_datagen;
 
+import com.github.minecraftschurli.patchouli_datagen.page.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-
-import vazkii.patchouli.api.PatchouliAPI;
-import vazkii.patchouli.api.data.page.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +13,7 @@ import java.util.Map;
 
 public class EntryBuilder {
 
-	private final CategoryBuilder parent;
+    private final CategoryBuilder parent;
 	private final ResourceLocation id;
 	private final String name;
 	private final String category;
@@ -40,7 +37,7 @@ public class EntryBuilder {
 	}
 
 	protected EntryBuilder(String id, String name, ItemStack icon, CategoryBuilder parent) {
-		this(id, name, PatchouliAPI.instance.serializeItemStack(icon), parent);
+		this(id, name, Util.serializeStack(icon), parent);
 	}
 
 	JsonObject toJson() {
@@ -77,7 +74,7 @@ public class EntryBuilder {
 		if (extraRecipeMappings != null) {
 			JsonObject mappings = new JsonObject();
 			for (Map.Entry<ItemStack, Integer> entry : extraRecipeMappings.entrySet()) {
-				mappings.addProperty(PatchouliAPI.instance.serializeItemStack(entry.getKey()), entry.getValue());
+				mappings.addProperty(Util.serializeStack(entry.getKey()), entry.getValue());
 			}
 			json.add("extra_recipe_mappings", mappings);
 		}

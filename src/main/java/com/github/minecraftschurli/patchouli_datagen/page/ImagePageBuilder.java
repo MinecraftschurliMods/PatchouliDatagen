@@ -1,12 +1,10 @@
-package vazkii.patchouli.api.data.page;
+package com.github.minecraftschurli.patchouli_datagen.page;
 
+import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
+import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import net.minecraft.util.ResourceLocation;
-
-import vazkii.patchouli.api.data.AbstractPageBuilder;
-import vazkii.patchouli.api.data.EntryBuilder;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;

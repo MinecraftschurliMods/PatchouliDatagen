@@ -1,4 +1,4 @@
-package vazkii.patchouli.api.data;
+package com.github.minecraftschurli.patchouli_datagen;
 
 import com.google.gson.JsonObject;
 

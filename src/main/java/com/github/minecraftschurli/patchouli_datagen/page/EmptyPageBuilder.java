@@ -1,9 +1,8 @@
-package vazkii.patchouli.api.data.page;
+package com.github.minecraftschurli.patchouli_datagen.page;
 
+import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
+import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.google.gson.JsonObject;
-
-import vazkii.patchouli.api.data.AbstractPageBuilder;
-import vazkii.patchouli.api.data.EntryBuilder;
 
 public class EmptyPageBuilder extends AbstractPageBuilder<EmptyPageBuilder> {
 	private final boolean drawFiller;

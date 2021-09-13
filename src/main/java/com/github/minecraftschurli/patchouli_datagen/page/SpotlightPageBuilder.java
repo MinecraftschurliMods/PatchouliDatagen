@@ -1,12 +1,11 @@
-package vazkii.patchouli.api.data.page;
+package com.github.minecraftschurli.patchouli_datagen.page;
 
+import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
+import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
+import com.github.minecraftschurli.patchouli_datagen.Util;
 import com.google.gson.JsonObject;
 
-import net.minecraft.item.ItemStack;
-
-import vazkii.patchouli.api.PatchouliAPI;
-import vazkii.patchouli.api.data.AbstractPageBuilder;
-import vazkii.patchouli.api.data.EntryBuilder;
+import net.minecraft.world.item.ItemStack;
 
 public class SpotlightPageBuilder extends AbstractPageBuilder<SpotlightPageBuilder> {
 	private final String item;
@@ -16,7 +15,7 @@ public class SpotlightPageBuilder extends AbstractPageBuilder<SpotlightPageBuild
 
 	public SpotlightPageBuilder(ItemStack stack, EntryBuilder parent) {
 		super("spotlight", parent);
-		this.item = PatchouliAPI.instance.serializeItemStack(stack);
+		this.item = Util.serializeStack(stack);
 	}
 
 	@Override

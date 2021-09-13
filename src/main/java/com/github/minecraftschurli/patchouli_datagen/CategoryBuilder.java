@@ -1,11 +1,8 @@
-package vazkii.patchouli.api.data;
+package com.github.minecraftschurli.patchouli_datagen;
 
 import com.google.gson.JsonObject;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-
-import vazkii.patchouli.api.PatchouliAPI;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +22,7 @@ public class CategoryBuilder {
 	private Boolean secret;
 
 	protected CategoryBuilder(String id, String name, String description, ItemStack icon, BookBuilder bookBuilder) {
-		this(id, name, description, PatchouliAPI.instance.serializeItemStack(icon), bookBuilder);
+		this(id, name, description, Util.serializeStack(icon), bookBuilder);
 	}
 
 	protected CategoryBuilder(String id, String name, String description, String icon, BookBuilder bookBuilder) {

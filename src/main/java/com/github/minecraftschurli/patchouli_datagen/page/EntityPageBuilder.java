@@ -1,15 +1,13 @@
-package vazkii.patchouli.api.data.page;
+package com.github.minecraftschurli.patchouli_datagen.page;
 
+import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
+import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.google.gson.JsonObject;
-
-import net.minecraft.nbt.CompoundNBT;
-
-import vazkii.patchouli.api.data.AbstractPageBuilder;
-import vazkii.patchouli.api.data.EntryBuilder;
+import net.minecraft.nbt.CompoundTag;
 
 public class EntityPageBuilder extends AbstractPageBuilder<EntityPageBuilder> {
 	private final String entity;
-	private CompoundNBT nbt;
+	private CompoundTag nbt;
 	private Float scale;
 	private Float offset;
 	private Boolean rotate;
@@ -45,7 +43,7 @@ public class EntityPageBuilder extends AbstractPageBuilder<EntityPageBuilder> {
 		}
 	}
 
-	public EntityPageBuilder setEntityNbt(CompoundNBT nbt) {
+	public EntityPageBuilder setEntityNbt(CompoundTag nbt) {
 		this.nbt = nbt;
 		return this;
 	}

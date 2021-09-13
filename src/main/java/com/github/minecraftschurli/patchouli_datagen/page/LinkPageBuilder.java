@@ -1,9 +1,8 @@
-package vazkii.patchouli.api.data.page;
+package com.github.minecraftschurli.patchouli_datagen.page;
 
+import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
+import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.google.gson.JsonObject;
-
-import vazkii.patchouli.api.data.AbstractPageBuilder;
-import vazkii.patchouli.api.data.EntryBuilder;
 
 public class LinkPageBuilder extends AbstractPageBuilder<LinkPageBuilder> {
 	private final String url;

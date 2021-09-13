@@ -1,4 +1,4 @@
-SimpelNetLib
+PatchouliDatagen
 ============
 
-Adds a neat wrapper around network communication.
+Adds a data generator for [Patchouli](https://github.com/VazkiiMods/Patchouli).

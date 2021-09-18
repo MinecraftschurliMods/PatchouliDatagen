@@ -1,3 +1,4 @@
+import org.ajoberstar.grgit.Grgit
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
@@ -22,6 +23,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 //=============================================
+def grgit = Grgit.open(currentDir: project.projectDir)
 
 group = "${project.lib_group}"
 version = "${project.mc_version}-${project.lib_version}"

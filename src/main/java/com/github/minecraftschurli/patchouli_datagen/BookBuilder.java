@@ -1,5 +1,6 @@
 package com.github.minecraftschurli.patchouli_datagen;
 
+import com.github.minecraftschurli.patchouli_datagen.translated.TranslatedCategoryBuilder;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -16,6 +17,8 @@ public class BookBuilder {
 
     private final List<CategoryBuilder> categories = new ArrayList<>();
     private final ResourceLocation id;
+    private String name;
+    private String landingText;
     private ResourceLocation bookTexture;
     private String fillerTexture;
     private String craftingTexture;
@@ -63,8 +66,8 @@ public class BookBuilder {
 
     JsonObject toJson() {
         JsonObject json = new JsonObject();
-        json.addProperty("name", "item.%s.%s.name".formatted(id.getNamespace(), id.getPath()));
-        json.addProperty("landing_text", "item.%s.%s.landing".formatted(id.getNamespace(), id.getPath()));
+        json.addProperty("name", name);
+        json.addProperty("landing_text", landingText);
         if (bookTexture != null) {
             json.addProperty("book_texture", bookTexture.toString());
         }
@@ -148,169 +151,165 @@ public class BookBuilder {
     protected void serialize(JsonObject json) {
     }
 
-    protected List<CategoryBuilder> getCategories() {
+    protected List<C> getCategories() {
         return Collections.unmodifiableList(categories);
     }
 
-    public void build(Consumer<BookBuilder> consumer) {
-        consumer.accept(this);
+    public void build(Consumer<BookBuilder<?,?,?>> consumer) {
+        consumer.accept(self());
     }
 
-    public CategoryBuilder addCategory(String id, String name, String description, ItemStack icon) {
-        return this.addCategory(new CategoryBuilder(id, name, description, icon, this));
-    }
+    public abstract C addCategory(String id, String name, String description, ItemStack icon);
 
-    public CategoryBuilder addCategory(String id, String name, String description, String icon) {
-        return this.addCategory(new CategoryBuilder(id, name, description, icon, this));
-    }
+    public abstract C addCategory(String id, String name, String description, String icon);
 
-    protected <T extends CategoryBuilder> T addCategory(T builder) {
+    protected <T extends C> T addCategory(T builder) {
         this.categories.add(builder);
         return builder;
     }
 
-    public BookBuilder setBookTexture(ResourceLocation bookTexture) {
+    public B setBookTexture(ResourceLocation bookTexture) {
         this.bookTexture = bookTexture;
-        return this;
+        return self();
     }
 
-    public BookBuilder setFillerTexture(String fillerTexture) {
+    public B setFillerTexture(String fillerTexture) {
         this.fillerTexture = fillerTexture;
-        return this;
+        return self();
     }
 
-    public BookBuilder setCraftingTexture(String craftingTexture) {
+    public B setCraftingTexture(String craftingTexture) {
         this.craftingTexture = craftingTexture;
-        return this;
+        return self();
     }
 
-    public BookBuilder setModel(ResourceLocation model) {
+    public B setModel(ResourceLocation model) {
         return this.setModel(model.toString());
     }
 
-    public BookBuilder setModel(String model) {
+    public B setModel(String model) {
         this.model = model;
-        return this;
+        return self();
     }
 
-    public BookBuilder setTextColor(String textColor) {
+    public B setTextColor(String textColor) {
         this.textColor = textColor;
-        return this;
+        return self();
     }
 
-    public BookBuilder setHeaderColor(String headerColor) {
+    public B setHeaderColor(String headerColor) {
         this.headerColor = headerColor;
-        return this;
+        return self();
     }
 
-    public BookBuilder setNameplateColor(String nameplateColor) {
+    public B setNameplateColor(String nameplateColor) {
         this.nameplateColor = nameplateColor;
-        return this;
+        return self();
     }
 
-    public BookBuilder setLinkColor(String linkColor) {
+    public B setLinkColor(String linkColor) {
         this.linkColor = linkColor;
-        return this;
+        return self();
     }
 
-    public BookBuilder setLinkHoverColor(String linkHoverColor) {
+    public B setLinkHoverColor(String linkHoverColor) {
         this.linkHoverColor = linkHoverColor;
-        return this;
+        return self();
     }
 
-    public BookBuilder setProgressBarColor(String progressBarColor) {
+    public B setProgressBarColor(String progressBarColor) {
         this.progressBarColor = progressBarColor;
-        return this;
+        return self();
     }
 
-    public BookBuilder setProgressBarBackground(String progressBarBackground) {
+    public B setProgressBarBackground(String progressBarBackground) {
         this.progressBarBackground = progressBarBackground;
-        return this;
+        return self();
     }
 
-    public BookBuilder setOpenSound(SoundEvent openSound) {
+    public B setOpenSound(SoundEvent openSound) {
         this.openSound = openSound.getRegistryName();
-        return this;
+        return self();
     }
 
-    public BookBuilder setOpenSound(ResourceLocation openSound) {
+    public B setOpenSound(ResourceLocation openSound) {
         this.openSound = openSound;
-        return this;
+        return self();
     }
 
-    public BookBuilder setFlipSound(SoundEvent flipSound) {
+    public B setFlipSound(SoundEvent flipSound) {
         this.flipSound = flipSound.getRegistryName();
-        return this;
+        return self();
     }
 
-    public BookBuilder setFlipSound(ResourceLocation flipSound) {
+    public B setFlipSound(ResourceLocation flipSound) {
         this.flipSound = flipSound;
-        return this;
+        return self();
     }
 
-    public BookBuilder setIndexIcon(String indexIcon) {
+    public B setIndexIcon(String indexIcon) {
         this.indexIcon = indexIcon;
-        return this;
+        return self();
     }
 
-    public BookBuilder setIndexIcon(ItemStack indexIcon) {
+    public B setIndexIcon(ItemStack indexIcon) {
         this.indexIcon = Util.serializeStack(indexIcon);
-        return this;
+        return self();
     }
 
-    public BookBuilder setVersion(String version) {
+    public B setVersion(String version) {
         this.version = version;
-        return this;
+        return self();
     }
 
-    public BookBuilder setSubtitle(String subtitle) {
+    public B setSubtitle(String subtitle) {
         this.subtitle = subtitle;
-        return this;
+        return self();
     }
 
-    public BookBuilder setCreativeTab(String creativeTab) {
+    public B setCreativeTab(String creativeTab) {
         this.creativeTab = creativeTab;
-        return this;
+        return self();
     }
 
-    public BookBuilder setAdvancementsTab(ResourceLocation advancementsTab) {
+    public B setAdvancementsTab(ResourceLocation advancementsTab) {
         this.advancementsTab = advancementsTab;
-        return this;
+        return self();
     }
 
-    public BookBuilder setCustomBookItem(ItemStack customBookItem) {
+    public B setCustomBookItem(ItemStack customBookItem) {
         this.customBookItem = Util.serializeStack(customBookItem);
-        return this;
+        return self();
     }
 
-    public BookBuilder setShowProgress(boolean showProgress) {
+    public B setShowProgress(boolean showProgress) {
         this.showProgress = showProgress;
-        return this;
+        return self();
     }
 
-    public BookBuilder setDontGenerateBook(boolean dontGenerateBook) {
+    public B setDontGenerateBook(boolean dontGenerateBook) {
         this.dontGenerateBook = dontGenerateBook;
-        return this;
+        return self();
     }
 
-    public BookBuilder setShowToasts(boolean showToasts) {
+    public B setShowToasts(boolean showToasts) {
         this.showToasts = showToasts;
-        return this;
+        return self();
     }
 
-    public BookBuilder setUseBlockyFont(boolean useBlockyFont) {
+    public B setUseBlockyFont(boolean useBlockyFont) {
         this.useBlockyFont = useBlockyFont;
-        return this;
+        return self();
     }
 
-    public BookBuilder setUseI18n() {
+    public B setUseI18n() {
         this.i18n = true;
-        return this;
+        return self();
     }
 
-    public BookBuilder setUseResourcepack() {
+    public B setUseResourcepack() {
         this.useResourcepack = true;
-        return this;
+        return self();
     }
 
     public boolean useResourcepack() {
@@ -319,6 +318,10 @@ public class BookBuilder {
 
     protected ResourceLocation getId() {
         return id;
+    }
+
+    protected B self() {
+        return (B) this;
     }
 
     @Override

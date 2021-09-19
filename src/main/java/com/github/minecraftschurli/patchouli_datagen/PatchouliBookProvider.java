@@ -1,5 +1,7 @@
 package com.github.minecraftschurli.patchouli_datagen;
 
+import com.github.minecraftschurli.patchouli_datagen.regular.RegularBookBuilder;
+import com.github.minecraftschurli.patchouli_datagen.translated.TranslatedBookBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -31,7 +33,6 @@ public abstract class PatchouliBookProvider implements DataProvider {
     public PatchouliBookProvider(DataGenerator gen, String modid, String locale, boolean includeClient, boolean includeServer) {
         this.generator = gen;
         this.modid = modid;
-        this.locale = locale;
         this.includeClient = includeClient;
         this.includeServer = includeServer;
     }
@@ -43,24 +44,24 @@ public abstract class PatchouliBookProvider implements DataProvider {
      */
     @Override
     public void run(@Nonnull HashCache cache) {
-        addBooks(book -> {
+        addBooks((BookBuilder<?,?,?> book) -> {
             if (includeServer) {
                 saveBook(cache, book.toJson(), book.getId());
             }
             if ((book.useResourcepack() && includeClient) || (!book.useResourcepack() && includeServer)) {
-                for (CategoryBuilder category : book.getCategories()) {
-                    saveCategory(cache, category.toJson(), book.getId(), category.getId(), book.useResourcepack());
+                for (CategoryBuilder<?,?,?> category : book.getCategories()) {
+                    saveCategory(cache, category.toJson(), book.getId(), category.getId(), category.getLocale(), book.useResourcepack());
                     for (EntryBuilder entry : category.getEntries()) {
-                        saveEntry(cache, entry.toJson(), book.getId(), entry.getId(), book.useResourcepack());
+                        saveEntry(cache, entry.toJson(), book.getId(), entry.getId(), entry.getLocale(), book.useResourcepack());
                     }
                 }
             }
         });
     }
 
-    protected abstract void addBooks(Consumer<BookBuilder> consumer);
+    protected abstract void addBooks(Consumer<BookBuilder<?,?,?>> consumer);
 
-    private void saveEntry(HashCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id, boolean rp) {
+    private void saveEntry(HashCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id, String locale, boolean rp) {
         Path mainOutput = generator.getOutputFolder();
         String pathSuffix = makeBookPath(bookId, rp) + "/" + locale + "/entries/" + id.getPath() + ".json";
         Path outputPath = mainOutput.resolve(pathSuffix);
@@ -71,7 +72,7 @@ public abstract class PatchouliBookProvider implements DataProvider {
         }
     }
 
-    private void saveCategory(HashCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id, boolean rp) {
+    private void saveCategory(HashCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id, String locale, boolean rp) {
         Path mainOutput = generator.getOutputFolder();
         String pathSuffix = makeBookPath(bookId, rp) + "/" + locale + "/categories/" + id.getPath() + ".json";
         Path outputPath = mainOutput.resolve(pathSuffix);
@@ -95,6 +96,10 @@ public abstract class PatchouliBookProvider implements DataProvider {
 
     public BookBuilder createBookBuilder(String id) {
         return new BookBuilder(new ResourceLocation(modid, id));
+    }
+
+    public TranslatedBookBuilder createBookBuilder(String id, String name, String landingText, LanguageProvider langProvider) {
+        return new TranslatedBookBuilder(new ResourceLocation(modid, id), name, landingText, langProvider, this);
     }
 
     private String makeBookPath(ResourceLocation bookId, boolean rp) {

@@ -1,9 +1,12 @@
 package com.github.minecraftschurli.patchouli_datagen;
 
+import com.github.minecraftschurli.patchouli_datagen.translated.TranslatedCategoryBuilder;
+import com.github.minecraftschurli.patchouli_datagen.translated.TranslatedEntryBuilder;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import java.nio.file.FileSystem;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +18,7 @@ public class CategoryBuilder {
     private final String name;
     private final String description;
     private final String icon;
-    private final List<EntryBuilder> entries = new ArrayList<>();
+    private final List<E> entries = new ArrayList<>();
     private String parent;
     private String flag;
     private Integer sortnum;
@@ -57,53 +60,61 @@ public class CategoryBuilder {
     protected void serialize(JsonObject json) {
     }
 
-    protected List<EntryBuilder> getEntries() {
+    protected List<E> getEntries() {
         return Collections.unmodifiableList(entries);
     }
 
-    public BookBuilder build() {
+    public B build() {
         return bookBuilder;
     }
 
-    public EntryBuilder addEntry(String id, String name, String icon) {
-        return this.addEntry(new EntryBuilder(id, name, icon, this));
+    public abstract C addSubCategory(String id, String name, String description, ItemStack icon);
+
+    public abstract C addSubCategory(String id, String name, String description, String icon);
+
+    protected C addSubCategory(C builder) {
+        return this.bookBuilder.addCategory(builder).setParent(self());
     }
 
-    public EntryBuilder addEntry(String id, String name, ItemStack icon) {
-        return this.addEntry(new EntryBuilder(id, name, icon, this));
-    }
+    public abstract E addEntry(String id, String name, ItemStack icon);
 
-    protected EntryBuilder addEntry(EntryBuilder builder) {
+    public abstract E addEntry(String id, String name, String icon);
+
+    protected E addEntry(E builder) {
         this.entries.add(builder);
         return builder;
     }
 
-    public CategoryBuilder setParent(String parent) {
+    public C setParent(String parent) {
         this.parent = parent;
-        return this;
+        return self();
     }
 
-    public CategoryBuilder setParent(CategoryBuilder parent) {
+    public C setParent(C parent) {
         this.parent = parent.getId().toString();
-        return this;
+        return self();
     }
 
-    public CategoryBuilder setFlag(String flag) {
+    public C setFlag(String flag) {
         this.flag = flag;
-        return this;
+        return self();
     }
 
-    public CategoryBuilder setSortnum(Integer sortnum) {
+    public C setSortnum(Integer sortnum) {
         this.sortnum = sortnum;
-        return this;
+        return self();
     }
 
-    public CategoryBuilder setSecret(Boolean secret) {
+    public C setSecret(Boolean secret) {
         this.secret = secret;
-        return this;
+        return self();
     }
 
-    protected ResourceLocation getId() {
+    private <T extends CategoryBuilder<B, C, E>> T self() {
+        return (T) this;
+    }
+
+    public ResourceLocation getId() {
         return id;
     }
 }

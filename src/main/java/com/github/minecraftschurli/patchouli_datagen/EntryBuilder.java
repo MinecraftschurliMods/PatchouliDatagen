@@ -11,14 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EntryBuilder {
+public abstract class EntryBuilder<B extends BookBuilder<B, C, E>, C extends CategoryBuilder<B, C, E>, E extends EntryBuilder<B, C, E>> {
 
-    private final CategoryBuilder parent;
+    protected final C parent;
     private final ResourceLocation id;
-    private final String name;
     private final String category;
     private final String icon;
     private final List<AbstractPageBuilder<?>> pages = new ArrayList<>();
+    private String name;
     private String advancement;
     private String flag;
     private Boolean priority;
@@ -36,8 +36,8 @@ public class EntryBuilder {
         this.parent = parent;
     }
 
-    protected EntryBuilder(String id, String name, ItemStack icon, CategoryBuilder parent) {
-        this(id, name, Util.serializeStack(icon), parent);
+    public String getLocale() {
+        return parent.getLocale();
     }
 
     JsonObject toJson() {
@@ -85,7 +85,7 @@ public class EntryBuilder {
     protected void serialize(JsonObject json) {
     }
 
-    public CategoryBuilder build() {
+    public C build() {
         return parent;
     }
 
@@ -146,47 +146,55 @@ public class EntryBuilder {
         return builder;
     }
 
-    public EntryBuilder setAdvancement(String advancement) {
+    public E setAdvancement(String advancement) {
         this.advancement = advancement;
-        return this;
+        return self();
     }
 
-    public EntryBuilder setFlag(String flag) {
+    public E setFlag(String flag) {
         this.flag = flag;
-        return this;
+        return self();
     }
 
-    public EntryBuilder setPriority(boolean priority) {
+    public E setPriority(boolean priority) {
         this.priority = priority;
-        return this;
+        return self();
     }
 
-    public EntryBuilder setSecret(boolean secret) {
+    public E setSecret(boolean secret) {
         this.secret = secret;
-        return this;
+        return self();
     }
 
-    public EntryBuilder setReadByDefault(boolean readByDefault) {
+    public E setReadByDefault(boolean readByDefault) {
         this.readByDefault = readByDefault;
-        return this;
+        return self();
     }
 
-    public EntryBuilder setSortnum(int sortnum) {
+    public E setSortnum(int sortnum) {
         this.sortnum = sortnum;
-        return this;
+        return self();
     }
 
-    public EntryBuilder setTurnin(String turnin) {
+    public E setTurnin(String turnin) {
         this.turnin = turnin;
-        return this;
+        return self();
     }
 
-    public EntryBuilder addExtraRecipeMapping(ItemStack stack, int index) {
+    public E addExtraRecipeMapping(ItemStack stack, int index) {
         if (this.extraRecipeMappings == null) {
             this.extraRecipeMappings = new HashMap<>();
         }
         this.extraRecipeMappings.put(stack, index);
-        return this;
+        return self();
+    }
+
+    protected E self() {
+        return (E) this;
+    }
+
+    protected int pageCount() {
+        return pages.size();
     }
 
     protected ResourceLocation getId() {

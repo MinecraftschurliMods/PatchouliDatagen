@@ -1,8 +1,6 @@
 package com.github.minecraftschurli.patchouli_datagen.translated;
 
-import com.github.minecraftschurli.patchouli_datagen.BookBuilder;
 import com.github.minecraftschurli.patchouli_datagen.CategoryBuilder;
-import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.github.minecraftschurli.patchouli_datagen.Util;
 import net.minecraft.world.item.ItemStack;
 

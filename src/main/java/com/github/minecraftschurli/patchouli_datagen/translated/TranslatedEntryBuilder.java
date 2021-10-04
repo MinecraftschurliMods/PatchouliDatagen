@@ -1,7 +1,5 @@
 package com.github.minecraftschurli.patchouli_datagen.translated;
 
-import com.github.minecraftschurli.patchouli_datagen.BookBuilder;
-import com.github.minecraftschurli.patchouli_datagen.CategoryBuilder;
 import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.github.minecraftschurli.patchouli_datagen.page.LinkPageBuilder;
 import com.github.minecraftschurli.patchouli_datagen.page.RecipePageBuilder;

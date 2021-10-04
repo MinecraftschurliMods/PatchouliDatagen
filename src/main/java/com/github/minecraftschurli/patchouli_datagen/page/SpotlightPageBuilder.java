@@ -4,7 +4,6 @@ import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
 import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.github.minecraftschurli.patchouli_datagen.Util;
 import com.google.gson.JsonObject;
-
 import net.minecraft.world.item.ItemStack;
 
 public class SpotlightPageBuilder extends AbstractPageBuilder<SpotlightPageBuilder> {

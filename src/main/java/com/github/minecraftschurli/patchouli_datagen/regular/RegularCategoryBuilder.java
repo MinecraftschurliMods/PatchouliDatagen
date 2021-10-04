@@ -1,10 +1,7 @@
 package com.github.minecraftschurli.patchouli_datagen.regular;
 
 import com.github.minecraftschurli.patchouli_datagen.CategoryBuilder;
-import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.github.minecraftschurli.patchouli_datagen.Util;
-import com.github.minecraftschurli.patchouli_datagen.translated.TranslatedCategoryBuilder;
-import com.github.minecraftschurli.patchouli_datagen.translated.TranslatedEntryBuilder;
 import net.minecraft.world.item.ItemStack;
 
 public class RegularCategoryBuilder extends CategoryBuilder<RegularBookBuilder, RegularCategoryBuilder, RegularEntryBuilder> {

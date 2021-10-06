@@ -3,6 +3,7 @@ package com.github.minecraftschurli.patchouli_datagen;
 import com.github.minecraftschurli.patchouli_datagen.page.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -10,16 +11,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+@SuppressWarnings("unused")
 public abstract class EntryBuilder<B extends BookBuilder<B, C, E>, C extends CategoryBuilder<B, C, E>, E extends EntryBuilder<B, C, E>> {
-
     protected final C parent;
     private final ResourceLocation id;
-    private final String category;
+    private final ResourceLocation category;
     private final String icon;
     private final List<AbstractPageBuilder<?>> pages = new ArrayList<>();
-    private String name;
-    private String advancement;
+    private final String name;
+    private ResourceLocation advancement;
     private String flag;
     private Boolean priority;
     private Boolean secret;
@@ -28,56 +30,68 @@ public abstract class EntryBuilder<B extends BookBuilder<B, C, E>, C extends Cat
     private String turnin;
     private Map<ItemStack, Integer> extraRecipeMappings;
 
-    protected EntryBuilder(String id, String name, String icon, CategoryBuilder parent) {
-        this.id = new ResourceLocation(parent.getId().getNamespace(), id);
+    protected EntryBuilder(String id, String name, String icon, C parent) {
+        this.id = new ResourceLocation(parent.getId().getNamespace(), parent.getId().getPath() + "/" + id);
         this.name = name;
-        this.category = parent.getId().getPath();
+        this.category = parent.getId();
         this.icon = icon;
         this.parent = parent;
     }
 
     public String getLocale() {
-        return parent.getLocale();
+        return this.parent.getLocale();
     }
 
     JsonObject toJson() {
         JsonObject json = new JsonObject();
-        json.addProperty("name", name);
-        json.addProperty("category", category);
-        json.addProperty("icon", icon);
+        json.addProperty("name", this.name);
+        json.addProperty("category", this.category.toString());
+        json.addProperty("icon", this.icon);
         JsonArray pages = new JsonArray();
-        for (AbstractPageBuilder<?> page : this.pages) {
+
+        for (final AbstractPageBuilder<?> page : this.pages) {
             pages.add(page.toJson());
         }
+
         json.add("pages", pages);
-        if (advancement != null) {
-            json.addProperty("advancement", advancement);
+        if (this.advancement != null) {
+            json.addProperty("advancement", this.advancement.toString());
         }
-        if (flag != null) {
-            json.addProperty("flag", flag);
+
+        if (this.flag != null) {
+            json.addProperty("flag", this.flag);
         }
-        if (priority != null) {
-            json.addProperty("priority", priority);
+
+        if (this.priority != null) {
+            json.addProperty("priority", this.priority);
         }
-        if (secret != null) {
-            json.addProperty("secret", secret);
+
+        if (this.secret != null) {
+            json.addProperty("secret", this.secret);
         }
-        if (readByDefault != null) {
-            json.addProperty("read_by_default", readByDefault);
+
+        if (this.readByDefault != null) {
+            json.addProperty("read_by_default", this.readByDefault);
         }
-        if (sortnum != null) {
-            json.addProperty("sortnum", sortnum);
+
+        if (this.sortnum != null) {
+            json.addProperty("sortnum", this.sortnum);
         }
-        if (turnin != null) {
-            json.addProperty("turnin", turnin);
+
+        if (this.turnin != null) {
+            json.addProperty("turnin", this.turnin);
         }
-        if (extraRecipeMappings != null) {
+
+        if (this.extraRecipeMappings != null) {
             JsonObject mappings = new JsonObject();
-            for (Map.Entry<ItemStack, Integer> entry : extraRecipeMappings.entrySet()) {
+
+            for (final Entry<ItemStack, Integer> entry : this.extraRecipeMappings.entrySet()) {
                 mappings.addProperty(Util.serializeStack(entry.getKey()), entry.getValue());
             }
+
             json.add("extra_recipe_mappings", mappings);
         }
+
         this.serialize(json);
         return json;
     }
@@ -86,118 +100,212 @@ public abstract class EntryBuilder<B extends BookBuilder<B, C, E>, C extends Cat
     }
 
     public C build() {
-        return parent;
+        return this.parent;
     }
 
-    public EntryBuilder addSimpleTextPage(String text) {
-        return addPage(new TextPageBuilder(text, this)).build();
+    public E addSimpleTextPage(String text) {
+        return this.addTextPage(text).build();
     }
 
-    public EntryBuilder addSimpleTextPage(String text, String title) {
-        return addPage(new TextPageBuilder(text, title, this)).build();
+    public E addSimpleTextPage(String text, String title) {
+        return this.addTextPage(text, title).build();
     }
 
     public TextPageBuilder addTextPage(String text) {
-        return addPage(new TextPageBuilder(text, this));
+        return this.addTextPage(text, null);
     }
 
     public TextPageBuilder addTextPage(String text, String title) {
-        return addPage(new TextPageBuilder(text, title, this));
+        return this.addPage(new TextPageBuilder(text, title, this));
+    }
+
+    public E addSimpleImagePage(ResourceLocation image, String text, String title) {
+        ImagePageBuilder page = this.addImagePage(image);
+        if (text != null) {
+            page.setText(text);
+        }
+
+        if (title != null) {
+            page.setTitle(title);
+        }
+
+        return page.build();
     }
 
     public ImagePageBuilder addImagePage(ResourceLocation image) {
-        return addPage(new ImagePageBuilder(image, this));
+        return this.addPage(new ImagePageBuilder(image, this));
     }
 
-    public CraftingPageBuilder addCraftingPage(ResourceLocation recipe) {
-        return addPage(new CraftingPageBuilder(recipe, this));
+    public E addSimpleRecipePage(String type, ResourceLocation recipe) {
+        return this.addSimpleRecipePage(type, recipe, null, null);
     }
 
-    public SmeltingPageBuilder addSmeltingPage(ResourceLocation recipe) {
-        return addPage(new SmeltingPageBuilder(recipe, this));
+    public E addSimpleRecipePage(String type, ResourceLocation recipe, String text) {
+        return this.addSimpleRecipePage(type, recipe, text, null);
+    }
+
+    public E addSimpleRecipePage(String type, ResourceLocation recipe, String text, String title) {
+        return this.addRecipePage(type, recipe, text, title).build();
+    }
+
+    public E addSimpleDoubleRecipePage(String type, ResourceLocation recipe1, ResourceLocation recipe2) {
+        return this.addSimpleDoubleRecipePage(type, recipe1, recipe2, null, null);
+    }
+
+    public E addSimpleDoubleRecipePage(String type, ResourceLocation recipe1, ResourceLocation recipe2, String text) {
+        return this.addSimpleDoubleRecipePage(type, recipe1, recipe2, text, null);
+    }
+
+    public E addSimpleDoubleRecipePage(String type, ResourceLocation recipe1, ResourceLocation recipe2, String text, String title) {
+        return this.addRecipePage(type, recipe1, text, title).setRecipe2(recipe2).build();
+    }
+
+    public RecipePageBuilder addRecipePage(String type, ResourceLocation recipe, String text, String title) {
+        RecipePageBuilder page = this.addRecipePage(type, recipe);
+        if (text != null) {
+            page.setText(text);
+        }
+
+        if (title != null) {
+            page.setTitle(title);
+        }
+
+        return page;
+    }
+
+    public RecipePageBuilder addRecipePage(String type, ResourceLocation recipe) {
+        return this.addPage(new RecipePageBuilder(type, recipe, this));
     }
 
     public EntityPageBuilder addEntityPage(String entity) {
-        return addPage(new EntityPageBuilder(entity, this));
+        return this.addPage(new EntityPageBuilder(entity, this));
     }
 
     public EntityPageBuilder addEntityPage(ResourceLocation entity) {
-        return addEntityPage(entity.toString());
+        return this.addEntityPage(entity.toString());
+    }
+
+    public E addSimpleSpotlightPage(ItemStack stack) {
+        return this.addSimpleSpotlightPage(stack, null, null);
+    }
+
+    public E addSimpleSpotlightPage(ItemStack stack, String text) {
+        return this.addSimpleSpotlightPage(stack, text, null);
+    }
+
+    public E addSimpleSpotlightPage(ItemStack stack, String text, String title) {
+        SpotlightPageBuilder page = this.addSpotlightPage(stack);
+        if (text != null) {
+            page.setText(text);
+        }
+
+        if (title != null) {
+            page.setTitle(title);
+        }
+
+        return page.build();
     }
 
     public SpotlightPageBuilder addSpotlightPage(ItemStack stack) {
-        return addPage(new SpotlightPageBuilder(stack, this));
+        return this.addPage(new SpotlightPageBuilder(stack, this));
+    }
+
+    public E addSimpleLinkPage(String url, String linkText, String title, String text) {
+        LinkPageBuilder page = this.addLinkPage(url, linkText);
+        if (text != null) {
+            page.setText(text);
+        }
+
+        if (title != null) {
+            page.setTitle(title);
+        }
+
+        return page.build();
     }
 
     public LinkPageBuilder addLinkPage(String url, String linkText) {
-        return addPage(new LinkPageBuilder(url, linkText, this));
+        return this.addPage(new LinkPageBuilder(url, linkText, this));
+    }
+
+    public E addSimpleEmptyPage() {
+        return this.addEmptyPage().build();
+    }
+
+    public E addSimpleEmptyPage(boolean drawFiller) {
+        return this.addEmptyPage(drawFiller).build();
     }
 
     public EmptyPageBuilder addEmptyPage() {
-        return addPage(new EmptyPageBuilder(true, this));
+        return this.addPage(new EmptyPageBuilder(true, this));
     }
 
     public EmptyPageBuilder addEmptyPage(boolean drawFiller) {
-        return addPage(new EmptyPageBuilder(drawFiller, this));
+        return this.addPage(new EmptyPageBuilder(drawFiller, this));
     }
 
     public <T extends AbstractPageBuilder<T>> T addPage(T builder) {
-        pages.add(builder);
+        this.pages.add(builder);
         return builder;
     }
 
-    public E setAdvancement(String advancement) {
+    public E setAdvancement(Advancement advancement) {
+        return this.setAdvancement(advancement.getId());
+    }
+
+    public E setAdvancement(ResourceLocation advancement) {
         this.advancement = advancement;
-        return self();
+        return this.self();
     }
 
     public E setFlag(String flag) {
         this.flag = flag;
-        return self();
+        return this.self();
     }
 
     public E setPriority(boolean priority) {
         this.priority = priority;
-        return self();
+        return this.self();
     }
 
     public E setSecret(boolean secret) {
         this.secret = secret;
-        return self();
+        return this.self();
     }
 
     public E setReadByDefault(boolean readByDefault) {
         this.readByDefault = readByDefault;
-        return self();
+        return this.self();
     }
 
     public E setSortnum(int sortnum) {
         this.sortnum = sortnum;
-        return self();
+        return this.self();
     }
 
     public E setTurnin(String turnin) {
         this.turnin = turnin;
-        return self();
+        return this.self();
     }
 
     public E addExtraRecipeMapping(ItemStack stack, int index) {
         if (this.extraRecipeMappings == null) {
             this.extraRecipeMappings = new HashMap<>();
         }
+
         this.extraRecipeMappings.put(stack, index);
-        return self();
+        return this.self();
     }
 
+    @SuppressWarnings("unchecked")
     protected E self() {
-        return (E) this;
+        return (E)this;
     }
 
     protected int pageCount() {
-        return pages.size();
+        return this.pages.size();
     }
 
     protected ResourceLocation getId() {
-        return id;
+        return this.id;
     }
 }

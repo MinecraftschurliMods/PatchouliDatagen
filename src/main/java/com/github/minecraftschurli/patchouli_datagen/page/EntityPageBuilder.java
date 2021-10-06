@@ -15,7 +15,7 @@ public class EntityPageBuilder extends AbstractPageBuilder<EntityPageBuilder> {
     private String name;
     private String text;
 
-    public EntityPageBuilder(String entity, EntryBuilder entryBuilder) {
+    public EntityPageBuilder(String entity, EntryBuilder<?,?,?> entryBuilder) {
         super("entity", entryBuilder);
         this.entity = entity;
     }

@@ -1,149 +1,162 @@
 package com.github.minecraftschurli.patchouli_datagen;
 
-import com.github.minecraftschurli.patchouli_datagen.translated.TranslatedCategoryBuilder;
 import com.google.gson.JsonObject;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.item.ItemStack;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.ItemStack;
 
-@SuppressWarnings("unused")
-public class BookBuilder {
-
-    private final List<CategoryBuilder> categories = new ArrayList<>();
+public abstract class BookBuilder<B extends BookBuilder<B, C, E>, C extends CategoryBuilder<B, C, E>, E extends EntryBuilder<B, C, E>> {
+    private final List<C> categories = new ArrayList<>();
+    private final PatchouliBookProvider provider;
     private final ResourceLocation id;
-    private String name;
-    private String landingText;
+    protected String name;
+    protected String landingText;
     private ResourceLocation bookTexture;
     private String fillerTexture;
     private String craftingTexture;
-
     private String model;
-
     private String textColor;
     private String headerColor;
     private String nameplateColor;
     private String linkColor;
     private String linkHoverColor;
-
     private Boolean useBlockyFont;
-
     private String progressBarColor;
     private String progressBarBackground;
-
     private ResourceLocation openSound;
     private ResourceLocation flipSound;
-
     private Boolean showProgress;
-
     private String indexIcon;
-
     private String version;
     private String subtitle;
-
     private String creativeTab;
-
     private ResourceLocation advancementsTab;
-
     private Boolean dontGenerateBook;
-
     private String customBookItem;
-
     private Boolean showToasts;
-
     private Boolean useResourcepack;
-
     private Boolean i18n;
 
-    public BookBuilder(ResourceLocation id) {
+    protected BookBuilder(ResourceLocation id, String name, String landingText, PatchouliBookProvider provider) {
         this.id = id;
+        this.provider = provider;
+        this.name = name;
+        this.landingText = landingText;
+    }
+
+    public String getLocale() {
+        return "en_us";
     }
 
     JsonObject toJson() {
         JsonObject json = new JsonObject();
-        json.addProperty("name", name);
-        json.addProperty("landing_text", landingText);
-        if (bookTexture != null) {
-            json.addProperty("book_texture", bookTexture.toString());
+        json.addProperty("name", this.name);
+        json.addProperty("landing_text", this.landingText);
+        if (this.bookTexture != null) {
+            json.addProperty("book_texture", this.bookTexture.toString());
         }
-        if (fillerTexture != null) {
-            json.addProperty("filler_texture", fillerTexture);
+
+        if (this.fillerTexture != null) {
+            json.addProperty("filler_texture", this.fillerTexture);
         }
-        if (craftingTexture != null) {
-            json.addProperty("crafting_texture", craftingTexture);
+
+        if (this.craftingTexture != null) {
+            json.addProperty("crafting_texture", this.craftingTexture);
         }
-        if (model != null) {
-            json.addProperty("model", model);
+
+        if (this.model != null) {
+            json.addProperty("model", this.model);
         }
-        if (textColor != null) {
-            json.addProperty("text_color", textColor);
+
+        if (this.textColor != null) {
+            json.addProperty("text_color", this.textColor);
         }
-        if (headerColor != null) {
-            json.addProperty("header_color", headerColor);
+
+        if (this.headerColor != null) {
+            json.addProperty("header_color", this.headerColor);
         }
-        if (nameplateColor != null) {
-            json.addProperty("nameplate_color", nameplateColor);
+
+        if (this.nameplateColor != null) {
+            json.addProperty("nameplate_color", this.nameplateColor);
         }
-        if (linkColor != null) {
-            json.addProperty("link_color", linkColor);
+
+        if (this.linkColor != null) {
+            json.addProperty("link_color", this.linkColor);
         }
-        if (linkHoverColor != null) {
-            json.addProperty("link_hover_color", linkHoverColor);
+
+        if (this.linkHoverColor != null) {
+            json.addProperty("link_hover_color", this.linkHoverColor);
         }
-        if (progressBarColor != null) {
-            json.addProperty("progress_bar_color", progressBarColor);
+
+        if (this.progressBarColor != null) {
+            json.addProperty("progress_bar_color", this.progressBarColor);
         }
-        if (progressBarBackground != null) {
-            json.addProperty("progress_bar_background", progressBarBackground);
+
+        if (this.progressBarBackground != null) {
+            json.addProperty("progress_bar_background", this.progressBarBackground);
         }
-        if (openSound != null) {
-            json.addProperty("open_sound", openSound.toString());
+
+        if (this.openSound != null) {
+            json.addProperty("open_sound", this.openSound.toString());
         }
-        if (flipSound != null) {
-            json.addProperty("flip_sound", flipSound.toString());
+
+        if (this.flipSound != null) {
+            json.addProperty("flip_sound", this.flipSound.toString());
         }
-        if (indexIcon != null) {
-            json.addProperty("index_icon", indexIcon);
+
+        if (this.indexIcon != null) {
+            json.addProperty("index_icon", this.indexIcon);
         }
-        if (showProgress != null) {
-            json.addProperty("show_progress", showProgress);
+
+        if (this.showProgress != null) {
+            json.addProperty("show_progress", this.showProgress);
         }
-        if (subtitle != null) {
-            json.addProperty("subtitle", subtitle);
-        } else if (version != null) {
-            json.addProperty("version", version);
+
+        if (this.subtitle != null) {
+            json.addProperty("subtitle", this.subtitle);
+        } else if (this.version != null) {
+            json.addProperty("version", this.version);
         } else {
-            json.addProperty("subtitle", "item.%s.%s.subtitle".formatted(id.getNamespace(), id.getPath()));
+            json.addProperty("subtitle", "item.%s.%s.subtitle".formatted(this.id.getNamespace(), this.id.getPath()));
         }
-        if (creativeTab != null) {
-            json.addProperty("creative_tab", creativeTab);
+
+        if (this.creativeTab != null) {
+            json.addProperty("creative_tab", this.creativeTab);
         }
-        if (advancementsTab != null) {
-            json.addProperty("advancements_tab", advancementsTab.toString());
+
+        if (this.advancementsTab != null) {
+            json.addProperty("advancements_tab", this.advancementsTab.toString());
         }
-        if (dontGenerateBook != null) {
-            json.addProperty("dont_generate_book", dontGenerateBook);
+
+        if (this.dontGenerateBook != null) {
+            json.addProperty("dont_generate_book", this.dontGenerateBook);
         }
-        if (customBookItem != null) {
-            json.addProperty("custom_book_item", customBookItem);
+
+        if (this.customBookItem != null) {
+            json.addProperty("custom_book_item", this.customBookItem);
         }
-        if (showToasts != null) {
-            json.addProperty("show_toasts", showToasts);
+
+        if (this.showToasts != null) {
+            json.addProperty("show_toasts", this.showToasts);
         }
-        if (useBlockyFont != null) {
-            json.addProperty("use_blocky_font", useBlockyFont);
+
+        if (this.useBlockyFont != null) {
+            json.addProperty("use_blocky_font", this.useBlockyFont);
         }
-        if (i18n != null) {
-            json.addProperty("i18n", i18n);
+
+        if (this.i18n != null) {
+            json.addProperty("i18n", this.i18n);
         }
-        if (useResourcepack != null) {
-            json.addProperty("use_resource_pack", useResourcepack);
+
+        if (this.useResourcepack != null) {
+            json.addProperty("use_resource_pack", this.useResourcepack);
         }
+
         this.serialize(json);
         return json;
     }
@@ -152,16 +165,16 @@ public class BookBuilder {
     }
 
     protected List<C> getCategories() {
-        return Collections.unmodifiableList(categories);
+        return Collections.unmodifiableList(this.categories);
     }
 
-    public void build(Consumer<BookBuilder<?,?,?>> consumer) {
-        consumer.accept(self());
+    public void build(Consumer<BookBuilder<?, ?, ?>> consumer) {
+        consumer.accept(this.self());
     }
 
-    public abstract C addCategory(String id, String name, String description, ItemStack icon);
+    public abstract C addCategory(String var1, String var2, String var3, ItemStack var4);
 
-    public abstract C addCategory(String id, String name, String description, String icon);
+    public abstract C addCategory(String var1, String var2, String var3, String var4);
 
     protected <T extends C> T addCategory(T builder) {
         this.categories.add(builder);
@@ -170,17 +183,17 @@ public class BookBuilder {
 
     public B setBookTexture(ResourceLocation bookTexture) {
         this.bookTexture = bookTexture;
-        return self();
+        return this.self();
     }
 
     public B setFillerTexture(String fillerTexture) {
         this.fillerTexture = fillerTexture;
-        return self();
+        return this.self();
     }
 
     public B setCraftingTexture(String craftingTexture) {
         this.craftingTexture = craftingTexture;
-        return self();
+        return this.self();
     }
 
     public B setModel(ResourceLocation model) {
@@ -189,143 +202,147 @@ public class BookBuilder {
 
     public B setModel(String model) {
         this.model = model;
-        return self();
+        return this.self();
     }
 
     public B setTextColor(String textColor) {
         this.textColor = textColor;
-        return self();
+        return this.self();
     }
 
     public B setHeaderColor(String headerColor) {
         this.headerColor = headerColor;
-        return self();
+        return this.self();
     }
 
     public B setNameplateColor(String nameplateColor) {
         this.nameplateColor = nameplateColor;
-        return self();
+        return this.self();
     }
 
     public B setLinkColor(String linkColor) {
         this.linkColor = linkColor;
-        return self();
+        return this.self();
     }
 
     public B setLinkHoverColor(String linkHoverColor) {
         this.linkHoverColor = linkHoverColor;
-        return self();
+        return this.self();
     }
 
     public B setProgressBarColor(String progressBarColor) {
         this.progressBarColor = progressBarColor;
-        return self();
+        return this.self();
     }
 
     public B setProgressBarBackground(String progressBarBackground) {
         this.progressBarBackground = progressBarBackground;
-        return self();
+        return this.self();
     }
 
     public B setOpenSound(SoundEvent openSound) {
         this.openSound = openSound.getRegistryName();
-        return self();
+        return this.self();
     }
 
     public B setOpenSound(ResourceLocation openSound) {
         this.openSound = openSound;
-        return self();
+        return this.self();
     }
 
     public B setFlipSound(SoundEvent flipSound) {
         this.flipSound = flipSound.getRegistryName();
-        return self();
+        return this.self();
     }
 
     public B setFlipSound(ResourceLocation flipSound) {
         this.flipSound = flipSound;
-        return self();
+        return this.self();
     }
 
     public B setIndexIcon(String indexIcon) {
         this.indexIcon = indexIcon;
-        return self();
+        return this.self();
     }
 
     public B setIndexIcon(ItemStack indexIcon) {
         this.indexIcon = Util.serializeStack(indexIcon);
-        return self();
+        return this.self();
     }
 
     public B setVersion(String version) {
         this.version = version;
-        return self();
+        return this.self();
     }
 
     public B setSubtitle(String subtitle) {
         this.subtitle = subtitle;
-        return self();
+        return this.self();
     }
 
     public B setCreativeTab(String creativeTab) {
         this.creativeTab = creativeTab;
-        return self();
+        return this.self();
     }
 
     public B setAdvancementsTab(ResourceLocation advancementsTab) {
         this.advancementsTab = advancementsTab;
-        return self();
+        return this.self();
     }
 
     public B setCustomBookItem(ItemStack customBookItem) {
         this.customBookItem = Util.serializeStack(customBookItem);
-        return self();
+        return this.self();
     }
 
     public B setShowProgress(boolean showProgress) {
         this.showProgress = showProgress;
-        return self();
+        return this.self();
     }
 
     public B setDontGenerateBook(boolean dontGenerateBook) {
         this.dontGenerateBook = dontGenerateBook;
-        return self();
+        return this.self();
     }
 
     public B setShowToasts(boolean showToasts) {
         this.showToasts = showToasts;
-        return self();
+        return this.self();
     }
 
     public B setUseBlockyFont(boolean useBlockyFont) {
         this.useBlockyFont = useBlockyFont;
-        return self();
+        return this.self();
     }
 
     public B setUseI18n() {
         this.i18n = true;
-        return self();
+        return this.self();
     }
 
     public B setUseResourcepack() {
         this.useResourcepack = true;
-        return self();
+        return this.self();
     }
 
     public boolean useResourcepack() {
-        return useResourcepack;
+        return this.useResourcepack;
     }
 
-    protected ResourceLocation getId() {
-        return id;
+    public boolean useI18n() {
+        return this.i18n;
     }
 
+    public ResourceLocation getId() {
+        return this.id;
+    }
+
+    @SuppressWarnings("unchecked")
     protected B self() {
         return (B) this;
     }
 
-    @Override
     public boolean equals(Object obj) {
-        return obj instanceof BookBuilder && Objects.equals(((BookBuilder) obj).getId(), this.getId());
+        return obj instanceof BookBuilder && Objects.equals(((BookBuilder)obj).getId(), this.getId());
     }
 }

@@ -8,13 +8,13 @@ public class TextPageBuilder extends AbstractPageBuilder<TextPageBuilder> {
     private final String text;
     private final String title;
 
-    public TextPageBuilder(String text, String title, EntryBuilder entryBuilder) {
+    public TextPageBuilder(String text, String title, EntryBuilder<?,?,?> entryBuilder) {
         super("text", entryBuilder);
         this.text = text;
         this.title = title;
     }
 
-    public TextPageBuilder(String text, EntryBuilder entryBuilder) {
+    public TextPageBuilder(String text, EntryBuilder<?,?,?> entryBuilder) {
         super("text", entryBuilder);
         this.text = text;
         this.title = null;

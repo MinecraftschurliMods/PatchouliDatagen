@@ -12,7 +12,7 @@ public class SpotlightPageBuilder extends AbstractPageBuilder<SpotlightPageBuild
     private Boolean linkRecipe;
     private String text;
 
-    public SpotlightPageBuilder(ItemStack stack, EntryBuilder parent) {
+    public SpotlightPageBuilder(ItemStack stack, EntryBuilder<?,?,?> parent) {
         super("spotlight", parent);
         this.item = Util.serializeStack(stack);
     }

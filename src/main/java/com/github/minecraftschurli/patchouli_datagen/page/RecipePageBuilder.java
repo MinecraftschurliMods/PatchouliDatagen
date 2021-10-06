@@ -3,48 +3,47 @@ package com.github.minecraftschurli.patchouli_datagen.page;
 import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
 import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.google.gson.JsonObject;
-
 import net.minecraft.resources.ResourceLocation;
 
-@SuppressWarnings("unchecked")
-public abstract class RecipePageBuilder<T extends RecipePageBuilder<T>> extends AbstractPageBuilder<T> {
+public class RecipePageBuilder extends AbstractPageBuilder<RecipePageBuilder> {
     private final String recipe;
     private String recipe2;
     private String title;
     private String text;
 
-    public RecipePageBuilder(String type, ResourceLocation recipe, EntryBuilder parent) {
+    public RecipePageBuilder(String type, ResourceLocation recipe, EntryBuilder<?,?,?> parent) {
         super(type, parent);
         this.recipe = recipe.toString();
     }
 
-    @Override
     protected void serialize(JsonObject json) {
-        json.addProperty("recipe", recipe);
-        if (recipe2 != null) {
-            json.addProperty("recipe2", recipe2);
+        json.addProperty("recipe", this.recipe);
+        if (this.recipe2 != null) {
+            json.addProperty("recipe2", this.recipe2);
         }
-        if (title != null) {
-            json.addProperty("title", title);
+
+        if (this.title != null) {
+            json.addProperty("title", this.title);
         }
-        if (text != null) {
-            json.addProperty("text", text);
+
+        if (this.text != null) {
+            json.addProperty("text", this.text);
         }
+
     }
 
-    public T setRecipe2(ResourceLocation recipe2) {
+    public <T extends RecipePageBuilder> T setRecipe2(ResourceLocation recipe2) {
         this.recipe2 = recipe2.toString();
-        return (T) this;
+        return this.self();
     }
 
-    public T setTitle(String title) {
+    public <T extends RecipePageBuilder> T setTitle(String title) {
         this.title = title;
-        return (T) this;
+        return this.self();
     }
 
-    public T setText(String text) {
+    public <T extends RecipePageBuilder> T setText(String text) {
         this.text = text;
-        return (T) this;
+        return this.self();
     }
-
 }

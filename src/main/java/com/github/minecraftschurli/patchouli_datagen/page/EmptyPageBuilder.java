@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 public class EmptyPageBuilder extends AbstractPageBuilder<EmptyPageBuilder> {
     private final boolean drawFiller;
 
-    public EmptyPageBuilder(boolean drawFiller, EntryBuilder entryBuilder) {
+    public EmptyPageBuilder(boolean drawFiller, EntryBuilder<?,?,?> entryBuilder) {
         super("empty", entryBuilder);
         this.drawFiller = drawFiller;
     }

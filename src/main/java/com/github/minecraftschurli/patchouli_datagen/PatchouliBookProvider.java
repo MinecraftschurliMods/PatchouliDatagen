@@ -11,6 +11,7 @@ import net.minecraft.data.DataProvider;
 
 import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.data.LanguageProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,12 +26,11 @@ public abstract class PatchouliBookProvider implements DataProvider {
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
 
     private final DataGenerator generator;
-    private final String locale;
     private final String modid;
     private final boolean includeClient;
     private final boolean includeServer;
 
-    public PatchouliBookProvider(DataGenerator gen, String modid, String locale, boolean includeClient, boolean includeServer) {
+    public PatchouliBookProvider(DataGenerator gen, String modid, boolean includeClient, boolean includeServer) {
         this.generator = gen;
         this.modid = modid;
         this.includeClient = includeClient;
@@ -94,8 +94,8 @@ public abstract class PatchouliBookProvider implements DataProvider {
         }
     }
 
-    public BookBuilder createBookBuilder(String id) {
-        return new BookBuilder(new ResourceLocation(modid, id));
+    public RegularBookBuilder createBookBuilder(String id, String name, String landingText) {
+        return new RegularBookBuilder(new ResourceLocation(modid, id), name, landingText, this);
     }
 
     public TranslatedBookBuilder createBookBuilder(String id, String name, String landingText, LanguageProvider langProvider) {

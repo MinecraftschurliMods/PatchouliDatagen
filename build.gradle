@@ -125,8 +125,6 @@ tasks.withType(Jar) {
                 'Built-On'              : "${project.mc_version}-${project.forge_version}",
                 'Timestamp'             : new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 'FMLModType'            : 'GAMELIBRARY',
-                'FMLModLoader'          : 'javafml',
-                'FMLLoaderVersion'      : '[37,)',
                 'LICENSE'               : 'MIT'
         ])
     }

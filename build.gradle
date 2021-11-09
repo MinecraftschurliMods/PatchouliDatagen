@@ -14,7 +14,6 @@ buildscript {
 }
 
 plugins {
-    id 'org.ajoberstar.grgit'
     id 'maven-publish'
     id 'eclipse'
     id 'idea'
@@ -23,7 +22,6 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 //=============================================
-def grgit = Grgit.open(currentDir: project.projectDir)
 
 group = "${project.lib_group}"
 version = "${project.mc_version}-${project.lib_version}"

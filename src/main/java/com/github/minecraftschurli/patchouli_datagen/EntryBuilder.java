@@ -174,7 +174,7 @@ public abstract class EntryBuilder<B extends BookBuilder<B, C, E>, C extends Cat
     }
 
     public RecipePageBuilder addRecipePage(String type, ResourceLocation recipe) {
-        return this.addPage(new RecipePageBuilder(type, recipe, this));
+        return this.addPage(new RecipePageBuilder(new ResourceLocation("patchouli", type), recipe, this));
     }
 
     public EntityPageBuilder addEntityPage(String entity) {
@@ -241,6 +241,18 @@ public abstract class EntryBuilder<B extends BookBuilder<B, C, E>, C extends Cat
 
     public EmptyPageBuilder addEmptyPage(boolean drawFiller) {
         return this.addPage(new EmptyPageBuilder(drawFiller, this));
+    }
+
+    public E addSimpleMultiblockPage(String name, ResourceLocation multiblock) {
+        return this.addMultiblockPage(name, multiblock).build();
+    }
+
+    public E addSimpleMultiblockPage(String name, String text, ResourceLocation multiblock) {
+        return this.addMultiblockPage(name, multiblock).setText(text).build();
+    }
+
+    public MultiblockPageBuilder addMultiblockPage(String name, ResourceLocation multiblock) {
+        return this.addPage(new MultiblockPageBuilder(name, multiblock, this));
     }
 
     public <T extends AbstractPageBuilder<T>> T addPage(T builder) {

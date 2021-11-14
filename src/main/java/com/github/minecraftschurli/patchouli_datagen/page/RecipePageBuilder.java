@@ -11,7 +11,7 @@ public class RecipePageBuilder extends AbstractPageBuilder<RecipePageBuilder> {
     private String title;
     private String text;
 
-    public RecipePageBuilder(String type, ResourceLocation recipe, EntryBuilder<?,?,?> parent) {
+    public RecipePageBuilder(ResourceLocation type, ResourceLocation recipe, EntryBuilder<?,?,?> parent) {
         super(type, parent);
         this.recipe = recipe.toString();
     }

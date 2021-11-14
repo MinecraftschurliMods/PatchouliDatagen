@@ -4,6 +4,7 @@ import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
 import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.github.minecraftschurli.patchouli_datagen.Util;
 import com.google.gson.JsonObject;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class SpotlightPageBuilder extends AbstractPageBuilder<SpotlightPageBuilder> {
@@ -13,7 +14,7 @@ public class SpotlightPageBuilder extends AbstractPageBuilder<SpotlightPageBuild
     private String text;
 
     public SpotlightPageBuilder(ItemStack stack, EntryBuilder<?,?,?> parent) {
-        super("spotlight", parent);
+        super(new ResourceLocation("patchouli", "spotlight"), parent);
         this.item = Util.serializeStack(stack);
     }
 

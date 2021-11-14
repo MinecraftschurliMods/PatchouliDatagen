@@ -3,12 +3,13 @@ package com.github.minecraftschurli.patchouli_datagen.page;
 import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
 import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.google.gson.JsonObject;
+import net.minecraft.resources.ResourceLocation;
 
 public class EmptyPageBuilder extends AbstractPageBuilder<EmptyPageBuilder> {
     private final boolean drawFiller;
 
     public EmptyPageBuilder(boolean drawFiller, EntryBuilder<?,?,?> entryBuilder) {
-        super("empty", entryBuilder);
+        super(new ResourceLocation("patchouli", "empty"), entryBuilder);
         this.drawFiller = drawFiller;
     }
 

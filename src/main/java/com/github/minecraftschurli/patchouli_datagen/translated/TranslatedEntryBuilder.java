@@ -2,6 +2,7 @@ package com.github.minecraftschurli.patchouli_datagen.translated;
 
 import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.github.minecraftschurli.patchouli_datagen.page.LinkPageBuilder;
+import com.github.minecraftschurli.patchouli_datagen.page.MultiblockPageBuilder;
 import com.github.minecraftschurli.patchouli_datagen.page.RecipePageBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -74,6 +75,26 @@ public class TranslatedEntryBuilder extends EntryBuilder<TranslatedBookBuilder, 
             linkText = key+".linkText";
         }
         return super.addLinkPage(url, linkText);
+    }
+
+    @Override
+    public TranslatedEntryBuilder addSimpleMultiblockPage(String name, String text, ResourceLocation multiblock) {
+        var key = getLangKey();
+        if (text != null) {
+            putLangKey(key+".text", text);
+            text = key+".text";
+        }
+        return super.addSimpleMultiblockPage(name, text, multiblock);
+    }
+
+    @Override
+    public MultiblockPageBuilder addMultiblockPage(String name, ResourceLocation multiblock) {
+        var key = getLangKey();
+        if (name != null) {
+            putLangKey(key+".title", name);
+            name = key+".title";
+        }
+        return super.addMultiblockPage(name, multiblock);
     }
 
     private String getLangKey() {

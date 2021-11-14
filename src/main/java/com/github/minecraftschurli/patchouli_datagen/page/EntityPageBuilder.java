@@ -4,6 +4,7 @@ import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
 import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.google.gson.JsonObject;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 
 public class EntityPageBuilder extends AbstractPageBuilder<EntityPageBuilder> {
     private final String entity;
@@ -16,7 +17,7 @@ public class EntityPageBuilder extends AbstractPageBuilder<EntityPageBuilder> {
     private String text;
 
     public EntityPageBuilder(String entity, EntryBuilder<?,?,?> entryBuilder) {
-        super("entity", entryBuilder);
+        super(new ResourceLocation("patchouli", "entity"), entryBuilder);
         this.entity = entity;
     }
 

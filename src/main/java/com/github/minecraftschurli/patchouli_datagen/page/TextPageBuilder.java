@@ -3,19 +3,20 @@ package com.github.minecraftschurli.patchouli_datagen.page;
 import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
 import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.google.gson.JsonObject;
+import net.minecraft.resources.ResourceLocation;
 
 public class TextPageBuilder extends AbstractPageBuilder<TextPageBuilder> {
     private final String text;
     private final String title;
 
     public TextPageBuilder(String text, String title, EntryBuilder<?,?,?> entryBuilder) {
-        super("text", entryBuilder);
+        super(new ResourceLocation("patchouli", "text"), entryBuilder);
         this.text = text;
         this.title = title;
     }
 
     public TextPageBuilder(String text, EntryBuilder<?,?,?> entryBuilder) {
-        super("text", entryBuilder);
+        super(new ResourceLocation("patchouli", "text"), entryBuilder);
         this.text = text;
         this.title = null;
     }

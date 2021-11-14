@@ -3,6 +3,7 @@ package com.github.minecraftschurli.patchouli_datagen.page;
 import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
 import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.google.gson.JsonObject;
+import net.minecraft.resources.ResourceLocation;
 
 public class LinkPageBuilder extends AbstractPageBuilder<LinkPageBuilder> {
     private final String url;
@@ -10,8 +11,8 @@ public class LinkPageBuilder extends AbstractPageBuilder<LinkPageBuilder> {
     private String text;
     private String title;
 
-    public LinkPageBuilder(String url, String linkText, EntryBuilder entryBuilder) {
-        super("link", entryBuilder);
+    public LinkPageBuilder(String url, String linkText, EntryBuilder<?,?,?> entryBuilder) {
+        super(new ResourceLocation("patchouli", "link"), entryBuilder);
         this.url = url;
         this.linkText = linkText;
     }

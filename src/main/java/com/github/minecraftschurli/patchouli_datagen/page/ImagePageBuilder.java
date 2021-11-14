@@ -16,7 +16,7 @@ public class ImagePageBuilder extends AbstractPageBuilder<ImagePageBuilder> {
     private String text;
 
     public ImagePageBuilder(ResourceLocation image, EntryBuilder<?,?,?> parent) {
-        super("image", parent);
+        super(new ResourceLocation("patchouli", "image"), parent);
         this.images.add(image);
     }
 

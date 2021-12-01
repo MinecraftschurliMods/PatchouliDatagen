@@ -1,25 +1,11 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://maven.parchmentmc.org' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.8', ext: 'pom'
-        classpath group: 'org.apache.maven', name: 'maven-plugin-api', version: '3.8.1'
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: "${project.forgegradle_version}", changing: true
-        classpath group: 'org.parchmentmc', name: 'librarian', version: "${project.librarian_version}"
-    }
-}
-
 plugins {
-    id 'maven-publish'
-    id 'eclipse'
     id 'idea'
+    id 'eclipse'
+    id 'maven-publish'
+    id 'org.ec4j.editorconfig'
+    id 'net.minecraftforge.gradle'
+    id 'org.parchmentmc.librarian.forgegradle'
 }
-
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
 //=============================================
 
 group = "${project.lib_group}"
@@ -75,7 +61,6 @@ repositories {
 
 dependencies {
     minecraft group: 'net.minecraftforge', name: 'forge', version: "${project.mc_version}-${project.forge_version}"
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${project.patchouli_version}:api")
     compileOnly 'org.jetbrains:annotations:22.0.0'
 }
 

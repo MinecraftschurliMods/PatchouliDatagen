@@ -1,6 +1,31 @@
 pluginManagement {
     plugins {
-        id 'org.ajoberstar.grgit' version '4.1.0'
+        id 'org.ec4j.editorconfig' version '0.0.3'
+        id 'net.minecraftforge.gradle' version '5.1.+'
+        id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    }
+    plugins {
+    repositories {
+        gradlePluginPortal()
+        maven {
+            name 'MinecraftForge'
+            url 'https://maven.minecraftforge.net/'
+        }
+        maven {
+            name 'ParchmentMC'
+            url 'https://maven.parchmentmc.org'
+        }
+    }
+    resolutionStrategy {
+        eachPlugin {
+            switch (requested.id.toString()) {
+                case "net.minecraftforge.gradle": {
+                    useVersion(target.version)
+                    useModule("${requested.id}:ForgeGradle:${target.version}")
+                    break
+                }
+            }
+        }
     }
 }
 rootProject.name = 'PatchouliDatagen'

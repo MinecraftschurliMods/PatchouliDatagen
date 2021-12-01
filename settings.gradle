@@ -28,4 +28,5 @@ pluginManagement {
         }
     }
 }
+
 rootProject.name = 'PatchouliDatagen'

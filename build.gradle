@@ -8,6 +8,11 @@ plugins {
 }
 //=============================================
 
+editorconfig {
+    excludes = ['**/run/**', '**/out/**', '**/.idea/**', '**/gradlew*']
+    excludeNonSourceFiles = true
+}
+
 group = "${project.lib_group}"
 version = "${project.mc_version}-${project.lib_version}"
 archivesBaseName = "${project.lib_name}"

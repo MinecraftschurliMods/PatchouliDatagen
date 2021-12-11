@@ -92,6 +92,7 @@ task deobfJar(type: Jar, dependsOn: classes) {
 }
 
 tasks.withType(Jar) {
+    from 'LICENSE'
     manifest {
         attributes([
                 'Specification-Title'   : archivesBaseName,

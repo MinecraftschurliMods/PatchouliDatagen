@@ -4,6 +4,7 @@ import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
 import com.github.minecraftschurli.patchouli_datagen.page.LinkPageBuilder;
 import com.github.minecraftschurli.patchouli_datagen.page.MultiblockPageBuilder;
 import com.github.minecraftschurli.patchouli_datagen.page.RecipePageBuilder;
+import com.github.minecraftschurli.patchouli_datagen.page.TextPageBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -12,6 +13,7 @@ public class TranslatedEntryBuilder extends EntryBuilder<TranslatedBookBuilder, 
         super(id, name, icon, parent);
     }
 
+    @Override
     public TranslatedEntryBuilder addSimpleImagePage(ResourceLocation image, String text, String title) {
         var key = getLangKey();
         if (text != null) {
@@ -25,6 +27,7 @@ public class TranslatedEntryBuilder extends EntryBuilder<TranslatedBookBuilder, 
         return super.addSimpleImagePage(image, text, title);
     }
 
+    @Override
     public RecipePageBuilder addRecipePage(String type, ResourceLocation recipe, String text, String title) {
         var key = getLangKey();
         if (text != null) {
@@ -38,6 +41,7 @@ public class TranslatedEntryBuilder extends EntryBuilder<TranslatedBookBuilder, 
         return super.addRecipePage(type, recipe, text, title);
     }
 
+    @Override
     public TranslatedEntryBuilder addSimpleSpotlightPage(ItemStack stack, String text, String title) {
         var key = getLangKey();
         if (text != null) {
@@ -51,6 +55,7 @@ public class TranslatedEntryBuilder extends EntryBuilder<TranslatedBookBuilder, 
         return super.addSimpleSpotlightPage(stack, text, title);
     }
 
+    @Override
     public TranslatedEntryBuilder addSimpleLinkPage(String url, String linkText, String title, String text) {
         var key = getLangKey();
         if (text != null) {
@@ -68,6 +73,7 @@ public class TranslatedEntryBuilder extends EntryBuilder<TranslatedBookBuilder, 
         return super.addSimpleLinkPage(url, linkText, title, text);
     }
 
+    @Override
     public LinkPageBuilder addLinkPage(String url, String linkText) {
         var key = getLangKey();
         if (linkText != null) {
@@ -95,6 +101,20 @@ public class TranslatedEntryBuilder extends EntryBuilder<TranslatedBookBuilder, 
             name = key+".title";
         }
         return super.addMultiblockPage(name, multiblock);
+    }
+
+    @Override
+    public TextPageBuilder addTextPage(String text, String title) {
+        var key = getLangKey();
+        if (text != null) {
+            putLangKey(key+".text", text);
+            text = key+".text";
+        }
+        if (title != null) {
+            putLangKey(key+".title", title);
+            title = key+".title";
+        }
+        return super.addTextPage(text, title);
     }
 
     private String getLangKey() {

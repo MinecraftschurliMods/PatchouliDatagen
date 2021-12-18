@@ -83,7 +83,7 @@ public abstract class CategoryBuilder<B extends BookBuilder<B, C, E>, C extends 
 
     public abstract E addEntry(String var1, String var2, String var3);
 
-    protected E addEntry(E builder) {
+    public E addEntry(E builder) {
         this.entries.add(builder);
         return builder;
     }

@@ -317,7 +317,7 @@ public abstract class EntryBuilder<B extends BookBuilder<B, C, E>, C extends Cat
         return this.pages.size();
     }
 
-    protected ResourceLocation getId() {
+    public ResourceLocation getId() {
         return this.id;
     }
 }

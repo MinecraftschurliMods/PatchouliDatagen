@@ -1,6 +1,5 @@
 package com.github.minecraftschurlimods.patchouli_datagen;
 
-import com.github.minecraftschurli.patchouli_datagen.page.*;
 import com.github.minecraftschurlimods.patchouli_datagen.page.EmptyPageBuilder;
 import com.github.minecraftschurlimods.patchouli_datagen.page.EntityPageBuilder;
 import com.github.minecraftschurlimods.patchouli_datagen.page.ImagePageBuilder;

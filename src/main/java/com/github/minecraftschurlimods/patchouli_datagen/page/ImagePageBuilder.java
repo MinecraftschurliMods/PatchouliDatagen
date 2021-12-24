@@ -1,7 +1,7 @@
-package com.github.minecraftschurli.patchouli_datagen.page;
+package com.github.minecraftschurlimods.patchouli_datagen.page;
 
-import com.github.minecraftschurli.patchouli_datagen.AbstractPageBuilder;
-import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.AbstractPageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.EntryBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;

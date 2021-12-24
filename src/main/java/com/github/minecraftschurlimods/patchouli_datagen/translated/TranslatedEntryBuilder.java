@@ -1,10 +1,10 @@
-package com.github.minecraftschurli.patchouli_datagen.translated;
+package com.github.minecraftschurlimods.patchouli_datagen.translated;
 
-import com.github.minecraftschurli.patchouli_datagen.EntryBuilder;
-import com.github.minecraftschurli.patchouli_datagen.page.LinkPageBuilder;
-import com.github.minecraftschurli.patchouli_datagen.page.MultiblockPageBuilder;
-import com.github.minecraftschurli.patchouli_datagen.page.RecipePageBuilder;
-import com.github.minecraftschurli.patchouli_datagen.page.TextPageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.EntryBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.page.LinkPageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.page.MultiblockPageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.page.RecipePageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.page.TextPageBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 

@@ -1,8 +1,8 @@
-package com.github.minecraftschurli.patchouli_datagen.regular;
+package com.github.minecraftschurlimods.patchouli_datagen.regular;
 
-import com.github.minecraftschurli.patchouli_datagen.BookBuilder;
-import com.github.minecraftschurli.patchouli_datagen.PatchouliBookProvider;
-import com.github.minecraftschurli.patchouli_datagen.Util;
+import com.github.minecraftschurlimods.patchouli_datagen.Util;
+import com.github.minecraftschurlimods.patchouli_datagen.BookBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.PatchouliBookProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 

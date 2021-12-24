@@ -1,4 +1,4 @@
-package com.github.minecraftschurli.patchouli_datagen;
+package com.github.minecraftschurlimods.patchouli_datagen;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

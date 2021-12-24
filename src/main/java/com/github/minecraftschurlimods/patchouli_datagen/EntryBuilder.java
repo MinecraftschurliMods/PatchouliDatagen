@@ -1,6 +1,14 @@
-package com.github.minecraftschurli.patchouli_datagen;
+package com.github.minecraftschurlimods.patchouli_datagen;
 
 import com.github.minecraftschurli.patchouli_datagen.page.*;
+import com.github.minecraftschurlimods.patchouli_datagen.page.EmptyPageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.page.EntityPageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.page.ImagePageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.page.LinkPageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.page.MultiblockPageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.page.RecipePageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.page.SpotlightPageBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.page.TextPageBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.advancements.Advancement;

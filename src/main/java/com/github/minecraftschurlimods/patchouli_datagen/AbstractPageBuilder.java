@@ -1,4 +1,4 @@
-package com.github.minecraftschurli.patchouli_datagen;
+package com.github.minecraftschurlimods.patchouli_datagen;
 
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;

@@ -1,7 +1,7 @@
-package com.github.minecraftschurli.patchouli_datagen;
+package com.github.minecraftschurlimods.patchouli_datagen;
 
-import com.github.minecraftschurli.patchouli_datagen.regular.RegularBookBuilder;
-import com.github.minecraftschurli.patchouli_datagen.translated.TranslatedBookBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.regular.RegularBookBuilder;
+import com.github.minecraftschurlimods.patchouli_datagen.translated.TranslatedBookBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;

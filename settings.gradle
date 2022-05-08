@@ -2,6 +2,10 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         maven {
+            name 'MinecraftForge'
+            url 'https://maven.minecraftforge.net/'
+        }
+        maven {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
         }
@@ -10,7 +14,19 @@ pluginManagement {
             url = 'https://repo.spongepowered.org/repository/maven-public/'
         }
     }
+    resolutionStrategy {
+        eachPlugin {
+            var version = target.version
+            switch (requested.id.toString()) {
+                case "net.minecraftforge.gradle": {
+                    useVersion(version)
+                    useModule("${requested.id}:ForgeGradle:${version}")
+                    break
+                }
+            }
+        }
+    }
 }
 
-rootProject.name = 'MultiLoader'
+rootProject.name = 'PatchouliDatagen'
 include("Common", "Fabric", "Forge")

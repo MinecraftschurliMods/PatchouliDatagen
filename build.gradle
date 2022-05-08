@@ -11,6 +11,16 @@ subprojects {
         withJavadocJar()
     }
 
+    if (System.getenv('RELEASE_TYPE') != null) {
+        status = System.getenv('RELEASE_TYPE').toLowerCase()
+        if (status != 'release') {
+            if (status == 'snapshot') status = status.toUpperCase()
+            version = "${version}-${status}"
+        }
+    } else {
+        version = "${version}-SNAPSHOT"
+    }
+
     archivesBaseName = "${mod_name}-${project.name.toLowerCase()}-${minecraft_version}"
 
     jar {
@@ -69,6 +79,8 @@ subprojects {
                 version project.version
                 //from components.java
                 artifact jar
+                artifact sourceJar
+                artifact javadocJar
                 pom {
                     name = project.name
                     url = project.url
@@ -99,7 +111,7 @@ subprojects {
                     licenses {
                         license {
                             name = 'MIT'
-                            url = "https://github.com/${project.github}/blob/main/LICENSE"
+                            url = "https://github.com/${project.github}/blob/1.18.x/LICENSE"
                             distribution = 'repo'
                         }
                     }

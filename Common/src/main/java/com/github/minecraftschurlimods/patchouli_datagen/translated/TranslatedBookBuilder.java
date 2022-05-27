@@ -15,7 +15,7 @@ public class TranslatedBookBuilder extends BookBuilder<TranslatedBookBuilder, Tr
         super(id, name, landingText, provider);
         this.languageProvider = languageProvider;
         setUseI18n();
-        var key = "item.%s.%s".formatted(id.getNamespace(), id.getPath());
+        String key = "item.%s.%s".formatted(id.getNamespace(), id.getPath());
         this.name = putLangKey(key+".name", name);
         this.landingText = putLangKey(key+".landing_text", landingText);
     }
@@ -27,11 +27,14 @@ public class TranslatedBookBuilder extends BookBuilder<TranslatedBookBuilder, Tr
 
     @Override
     public TranslatedCategoryBuilder addCategory(String id, String name, String description, String icon) {
-        var key = "item.%s.%s.%s".formatted(getId().getNamespace(), getId().getPath(), id);
+        String key = "item.%s.%s.%s".formatted(getId().getNamespace(), getId().getPath(), id);
         return this.addCategory(new TranslatedCategoryBuilder(id, putLangKey(key+".name", name), putLangKey(key+".description", description), icon, this));
     }
 
     public String putLangKey(final String key, final String text) {
+        if (text.matches("(\\w+\\.)+\\w+")) {
+            return text;
+        }
         languageProvider.accept(key, text);
         return key;
     }

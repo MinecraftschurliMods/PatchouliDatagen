@@ -16,10 +16,8 @@ public class TranslatedCategoryBuilder extends CategoryBuilder<TranslatedBookBui
 
     @Override
     public TranslatedCategoryBuilder addSubCategory(String id, String name, String description, String icon) {
-        var key = "item.%s.%s.%s.%s".formatted(getBookId().getNamespace(), getBookId().getPath(), getId().getPath().replaceAll("/", "."), id);
-        putLangKey(key+".name", name);
-        putLangKey(key+".description", description);
-        return addSubCategory(new TranslatedCategoryBuilder(id, key+".name", key+".description", icon, bookBuilder));
+        String key = "item.%s.%s.%s.%s".formatted(getBookId().getNamespace(), getBookId().getPath(), getId().getPath().replaceAll("/", "."), id);
+        return addSubCategory(new TranslatedCategoryBuilder(id, putLangKey(key + ".name", name), putLangKey(key + ".description", description), icon, bookBuilder));
     }
 
     @Override
@@ -29,12 +27,11 @@ public class TranslatedCategoryBuilder extends CategoryBuilder<TranslatedBookBui
 
     @Override
     public TranslatedEntryBuilder addEntry(String id, String name, String icon) {
-        var key = "item.%s.%s.%s.%s".formatted(getBookId().getNamespace(), getBookId().getPath(), getId().getPath().replaceAll("/", "."), id);
-        putLangKey(key+".name", name);
-        return addEntry(new TranslatedEntryBuilder(id, key+".name", icon, this));
+        String key = "item.%s.%s.%s.%s.name".formatted(getBookId().getNamespace(), getBookId().getPath(), getId().getPath().replaceAll("/", "."), id);
+        return addEntry(new TranslatedEntryBuilder(id, putLangKey(key, name), icon, this));
     }
 
-    public void putLangKey(String key, String text) {
-        bookBuilder.putLangKey(key, text);
+    public String putLangKey(String key, String text) {
+        return bookBuilder.putLangKey(key, text);
     }
 }

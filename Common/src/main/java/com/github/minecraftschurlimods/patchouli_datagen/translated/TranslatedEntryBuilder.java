@@ -15,106 +15,50 @@ public class TranslatedEntryBuilder extends EntryBuilder<TranslatedBookBuilder, 
 
     @Override
     public TranslatedEntryBuilder addSimpleImagePage(ResourceLocation image, String text, String title) {
-        var key = getLangKey();
-        if (text != null) {
-            putLangKey(key+".text", text);
-            text = key+".text";
-        }
-        if (title != null) {
-            putLangKey(key+".title", title);
-            title = key+".title";
-        }
-        return super.addSimpleImagePage(image, text, title);
+        String key = getLangKey();
+        return super.addSimpleImagePage(image, putLangKey(key+".text", text), putLangKey(key+".title", title));
     }
 
     @Override
     public RecipePageBuilder addRecipePage(String type, ResourceLocation recipe, String text, String title) {
-        var key = getLangKey();
-        if (text != null) {
-            putLangKey(key+".text", text);
-            text = key+".text";
-        }
-        if (title != null) {
-            putLangKey(key+".title", title);
-            title = key+".title";
-        }
-        return super.addRecipePage(type, recipe, text, title);
+        String key = getLangKey();
+        return super.addRecipePage(type, recipe, putLangKey(key+".text", text), putLangKey(key+".title", title));
     }
 
     @Override
     public TranslatedEntryBuilder addSimpleSpotlightPage(ItemStack stack, String text, String title) {
-        var key = getLangKey();
-        if (text != null) {
-            putLangKey(key+".text", text);
-            text = key+".text";
-        }
-        if (title != null) {
-            putLangKey(key+".title", title);
-            title = key+".title";
-        }
-        return super.addSimpleSpotlightPage(stack, text, title);
+        String key = getLangKey();
+        return super.addSimpleSpotlightPage(stack, putLangKey(key+".text", text), putLangKey(key+".title", title));
     }
 
     @Override
     public TranslatedEntryBuilder addSimpleLinkPage(String url, String linkText, String title, String text) {
-        var key = getLangKey();
-        if (text != null) {
-            putLangKey(key+".text", text);
-            text = key+".text";
-        }
-        if (title != null) {
-            putLangKey(key+".title", title);
-            title = key+".title";
-        }
-        if (linkText != null) {
-            putLangKey(key+".linkText", linkText);
-            linkText = key+".linkText";
-        }
-        return super.addSimpleLinkPage(url, linkText, title, text);
+        String key = getLangKey();
+        return super.addSimpleLinkPage(url, putLangKey(key+".linkText", linkText), putLangKey(key+".title", title), putLangKey(key+".text", text));
     }
 
     @Override
     public LinkPageBuilder addLinkPage(String url, String linkText) {
-        var key = getLangKey();
-        if (linkText != null) {
-            putLangKey(key+".linkText", linkText);
-            linkText = key+".linkText";
-        }
-        return super.addLinkPage(url, linkText);
+        String key = getLangKey();
+        return super.addLinkPage(url, putLangKey(key+".linkText", linkText));
     }
 
     @Override
     public TranslatedEntryBuilder addSimpleMultiblockPage(String name, String text, ResourceLocation multiblock) {
-        var key = getLangKey();
-        if (text != null) {
-            putLangKey(key+".text", text);
-            text = key+".text";
-        }
-        return super.addSimpleMultiblockPage(name, text, multiblock);
+        String key = getLangKey();
+        return super.addSimpleMultiblockPage(name, putLangKey(key+".text", text), multiblock);
     }
 
     @Override
     public MultiblockPageBuilder addMultiblockPage(String name, ResourceLocation multiblock) {
-        var key = getLangKey();
-        if (name != null) {
-            putLangKey(key+".title", name);
-            name = key+".title";
-        }
-        return super.addMultiblockPage(name, multiblock);
+        String key = getLangKey();
+        return super.addMultiblockPage(putLangKey(key+".title", name), multiblock);
     }
 
     @Override
     public TextPageBuilder addTextPage(String text, String title) {
-        var key = getLangKey();
-        if (text != null) {
-            putLangKey(key+".text", text);
-            text = key+".text";
-        }
-        if (title != null) {
-            putLangKey(key+".title", title);
-            title = key+".title";
-        }
-        return super.addTextPage(text, title);
+        String key = getLangKey();
+        return super.addTextPage(putLangKey(key+".text", text), putLangKey(key+".title", title));
     }
 
     private String getLangKey() {
@@ -125,7 +69,10 @@ public class TranslatedEntryBuilder extends EntryBuilder<TranslatedBookBuilder, 
                 "page" + pageCount());
     }
 
-    protected void putLangKey(String key, String text) {
-        parent.putLangKey(key, text);
+    protected String putLangKey(String key, String text) {
+        if (text == null) {
+            return null;
+        }
+        return parent.putLangKey(key, text);
     }
 }

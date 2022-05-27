@@ -24,7 +24,7 @@ Then add the dependency for your modloader to your dependencies and replace `<ve
 ~~~gradle
 dependencies {
     ...
-    implementation fg.deobf("com.github.mincraftschurli.patchouli_datagen:PatchouliDatagen-forge-1.18.2:<version>")
+    implementation fg.deobf("com.github.minecraftschurli:patchouli_datagen-forge-1.18.2:<version>")
     ...
 }
 ~~~
@@ -33,7 +33,7 @@ dependencies {
 ~~~gradle
 dependencies {
     ...
-    modImplementation "com.github.mincraftschurli.patchouli_datagen:PatchouliDatagen-fabric-1.18.2:<version>"
+    modImplementation "com.github.minecraftschurli:patchouli_datagen-fabric-1.18.2:<version>"
     ...
 }
 ~~~

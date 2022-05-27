@@ -21,7 +21,7 @@ subprojects {
         version = "${version}-SNAPSHOT"
     }
 
-    archivesBaseName = "${mod_name}-${project.name.toLowerCase()}-${minecraft_version}"
+    archivesBaseName = "${mod_id}-${project.name.toLowerCase()}-${minecraft_version}"
 
     jar {
         from("LICENSE") {

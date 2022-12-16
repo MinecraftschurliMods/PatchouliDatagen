@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.item.ItemStack;
 
@@ -15,7 +15,7 @@ public class Util {
 
     public static String serializeStack(ItemStack stack) {
         StringBuilder builder = new StringBuilder();
-        builder.append(Registry.ITEM.getKey(stack.getItem()));
+        builder.append(BuiltInRegistries.ITEM.getKey(stack.getItem()));
 
         int count = stack.getCount();
         if (count > 1) {

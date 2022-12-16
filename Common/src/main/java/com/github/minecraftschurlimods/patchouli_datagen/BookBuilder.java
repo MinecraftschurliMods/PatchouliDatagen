@@ -1,7 +1,7 @@
 package com.github.minecraftschurlimods.patchouli_datagen;
 
 import com.google.gson.JsonObject;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ItemStack;
@@ -243,7 +243,7 @@ public abstract class BookBuilder<B extends BookBuilder<B, C, E>, C extends Cate
     }
 
     public B setOpenSound(SoundEvent openSound) {
-        this.openSound = Registry.SOUND_EVENT.getKey(openSound);
+        this.openSound = BuiltInRegistries.SOUND_EVENT.getKey(openSound);
         return this.self();
     }
 
@@ -253,7 +253,7 @@ public abstract class BookBuilder<B extends BookBuilder<B, C, E>, C extends Cate
     }
 
     public B setFlipSound(SoundEvent flipSound) {
-        this.flipSound = Registry.SOUND_EVENT.getKey(flipSound);
+        this.flipSound = BuiltInRegistries.SOUND_EVENT.getKey(flipSound);
         return this.self();
     }
 

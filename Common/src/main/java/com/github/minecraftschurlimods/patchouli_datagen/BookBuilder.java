@@ -36,7 +36,7 @@ public abstract class BookBuilder<B extends BookBuilder<B, C, E>, C extends Cate
     private String indexIcon;
     private String version;
     private String subtitle;
-    private String creativeTab;
+    private ResourceLocation creativeTab;
     private ResourceLocation advancementsTab;
     private Boolean dontGenerateBook;
     private String customBookItem;
@@ -128,7 +128,7 @@ public abstract class BookBuilder<B extends BookBuilder<B, C, E>, C extends Cate
         }
 
         if (this.creativeTab != null) {
-            json.addProperty("creative_tab", this.creativeTab);
+            json.addProperty("creative_tab", this.creativeTab.toString());
         }
 
         if (this.advancementsTab != null) {
@@ -282,7 +282,7 @@ public abstract class BookBuilder<B extends BookBuilder<B, C, E>, C extends Cate
         return this.self();
     }
 
-    public B setCreativeTab(String creativeTab) {
+    public B setCreativeTab(ResourceLocation creativeTab) {
         this.creativeTab = creativeTab;
         return this.self();
     }

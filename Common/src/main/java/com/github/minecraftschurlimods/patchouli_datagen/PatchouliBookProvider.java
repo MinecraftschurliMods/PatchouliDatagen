@@ -3,6 +3,7 @@ package com.github.minecraftschurlimods.patchouli_datagen;
 import com.github.minecraftschurlimods.patchouli_datagen.regular.RegularBookBuilder;
 import com.github.minecraftschurlimods.patchouli_datagen.translated.TranslatedBookBuilder;
 import com.google.gson.JsonObject;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -18,12 +19,14 @@ import java.util.function.Consumer;
 
 public abstract class PatchouliBookProvider implements DataProvider {
     private final PackOutput output;
+    private final CompletableFuture<HolderLookup.Provider> lookupProvider;
     private final String modid;
     private final boolean includeClient;
     private final boolean includeServer;
 
-    public PatchouliBookProvider(PackOutput output, String modid, boolean includeClient, boolean includeServer) {
+    public PatchouliBookProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modid, boolean includeClient, boolean includeServer) {
         this.output = output;
+        this.lookupProvider = lookupProvider;
         this.modid = modid;
         this.includeClient = includeClient;
         this.includeServer = includeServer;
@@ -37,26 +40,26 @@ public abstract class PatchouliBookProvider implements DataProvider {
      */
     @Override
     public CompletableFuture<?> run(@Nonnull CachedOutput cache) {
-        List<BookBuilder<?,?,?>> books = new ArrayList<>();
-        addBooks(books::add);
-        return CompletableFuture.allOf(books.stream().flatMap((BookBuilder<?,?,?> book) -> {
+        return lookupProvider.thenApply(provider -> {
             List<CompletableFuture<?>> futures = new ArrayList<>();
-            if (includeServer) {
-                futures.add(saveBook(cache, book.toJson(), book.getId()));
-            }
-            if ((book.useResourcepack() && includeClient) || (!book.useResourcepack() && includeServer)) {
-                for (CategoryBuilder<?,?,?> category : book.getCategories()) {
-                    futures.add(saveCategory(cache, category.toJson(), book.getId(), category.getId(), category.getLocale(), book.useResourcepack()));
-                    for (var entry : category.getEntries()) {
-                        futures.add(saveEntry(cache, entry.toJson(), book.getId(), entry.getId(), entry.getLocale(), book.useResourcepack()));
+            addBooks(provider, book -> {
+                if (includeServer) {
+                    futures.add(saveBook(cache, book.toJson(), book.getId()));
+                }
+                if ((book.useResourcepack() && includeClient) || (!book.useResourcepack() && includeServer)) {
+                    for (CategoryBuilder<?,?,?> category : book.getCategories()) {
+                        futures.add(saveCategory(cache, category.toJson(), book.getId(), category.getId(), category.getLocale(), book.useResourcepack()));
+                        for (var entry : category.getEntries()) {
+                            futures.add(saveEntry(cache, entry.toJson(), book.getId(), entry.getId(), entry.getLocale(), book.useResourcepack()));
+                        }
                     }
                 }
-            }
-            return futures.stream();
-        }).toArray(CompletableFuture[]::new));
+            });
+            return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+        });
     }
 
-    protected abstract void addBooks(Consumer<BookBuilder<?,?,?>> consumer);
+    protected abstract void addBooks(HolderLookup.Provider lookupProvider, Consumer<BookBuilder<?,?,?>> consumer);
 
     private CompletableFuture<?> saveEntry(CachedOutput cache, JsonObject json, ResourceLocation bookId, ResourceLocation id, String locale, boolean rp) {
         Path mainOutput = output.getOutputFolder();

@@ -40,7 +40,7 @@ public abstract class PatchouliBookProvider implements DataProvider {
      */
     @Override
     public CompletableFuture<?> run(@Nonnull CachedOutput cache) {
-        return lookupProvider.thenApply(provider -> {
+        return lookupProvider.thenCompose(provider -> {
             List<CompletableFuture<?>> futures = new ArrayList<>();
             addBooks(provider, book -> {
                 if (includeServer) {
